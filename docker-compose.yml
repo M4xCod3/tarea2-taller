@@ -1,0 +1,28 @@
+services:
+  servidor:
+    build: ./proftpd
+    container_name: ftp-servidor
+    hostname: servidor
+    networks:
+      redftp:
+        ipv4_address: 172.20.0.10
+    volumes:
+      - ./ftp-data:/srv/ftp-data
+
+  cliente:
+    build: ./lftp
+    container_name: ftp-cliente
+    hostname: cliente
+    networks:
+      redftp:
+        ipv4_address: 172.20.0.20
+    volumes:
+      - ./capturas:/capturas
+
+networks:
+  redftp:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+
